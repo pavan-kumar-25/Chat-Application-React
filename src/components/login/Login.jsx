@@ -54,8 +54,8 @@ const Login = () => {
       const imgUrl = await upload(avatar.file);
 
       await setDoc(doc(db, "users", res.user.uid), {
-        username,
-        email,
+        username: registerUsername,
+        email: registerEmail,
         avatar: imgUrl,
         id: res.user.uid,
         blocked: [],
@@ -65,14 +65,18 @@ const Login = () => {
         chats: [],
       });
 
+      // Todo: use batch writes
+
       setAvatar({ file: null, url: "" }); // Reset avatar
 
       toast.success("Account created! Login now..");
     } catch (error) {
       setRegisterError(error.message);
+      console.log(error.message)
     } finally {
       setLoadingRegister(false);
     }
+    
   };
 
   const handleLogin = async (e) => {

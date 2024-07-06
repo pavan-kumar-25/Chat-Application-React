@@ -14,9 +14,12 @@ const App = () => {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const {chatId}=chatStore();
   const [didLogin, setDidLogin] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
+      // delay function to help database update before login
       if (user) {
         fetchUserInfo(user?.uid);
         setDidLogin(!didLogin);
@@ -28,6 +31,8 @@ const App = () => {
       unSub();
     };
   }, [fetchUserInfo]);
+
+
 
   if (isLoading) return <div className="loading">Loading.....</div>;
 
